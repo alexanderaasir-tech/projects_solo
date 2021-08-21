@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Dashboard</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'style_dash.css' %}">
+    <!-- load Bootstrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div class ="container bg-light text-muted border-bottom">
+        <div class ="row align-items-center">
+            <div class ="col-8 p-3">
+                <h3>Hi, {{ current_user.first_name }}!</h3>
+            </div>
+            <div class ="col">
+                <a href="/restaurant/new"> <input class="btn btn-secondary" type="button" value="Create New Food Social"></a>
+            </div>
+            <div class= "col">
+                <a href="/logout">Sign Out</a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="container bg-light">
+        <div class="middle shadow-lg p-3 mb-5 bg-white rounded">
+            <h3 >My Take Out</h3>
+            <table class="table table-sm">
+                <thead>
+                    <tr>
+                        <th>Restaurant Name</th>
+                        <th>Item Ordered</th>
+                        <th>Qty</th>
+                        <th>Date Ordered</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for one_order in my_orders %}
+                    <tr>
+                        <td>{{ one_order.item_order.restaurant.name }}</td>
+                        <td>{{ one_order.item_order.item }}</td>
+                        <td>{{ one_order.customer_qty }}</td>
+                        <td>{{ one_order.created_at }}</td>
+                    </tr>
+                    {%endfor%}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="container bg-light">
+        <div class="middle shadow-lg p-3 mb-5 bg-white rounded">
+            <h3>All Food Socials</h3>
+            <table class ="table table-sm">
+                <thead>
+                    <tr>
+                        <th>Restaurant Name</th>
+                        <th>Description</th>
+                        <th>Location</th>
+                        <!-- <th>Actions</th> -->
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for one_restaurant in all_restaurants %}
+                    <tr>
+                        <td><a href="/restaurant/menu/{{ one_restaurant.id }}">{{ one_restaurant.name }}</a></td>
+                        <td>{{ one_restaurant.description }}</td>
+                        <td>{{ one_restaurant.location }}</td>
+                        <!-- <td>
+                            <a href="/jobs/view/{{one_job.id}}"> View </a>
+                            {% if current_user.id == one_job.owner.id %}
+                            |<a href="/jobs/remove/{{one_job.id}}"> Remove </a>
+                            |<a href="/jobs/edit/{{one_job.id}}"> Edit </a>
+                            {% endif %} -->
+                            <!-- <a href="/jobs/add/{{one_job.id}}">Add </a> -->
+                        <!-- </td> -->
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="container bg-light">
+        <div class="middle shadow-lg p-3 mb-5 bg-white rounded">
+            <h3>My Food Socials</h3>
+            <table class="table table-sm">
+                <thead>
+                    <tr>
+                        <th>Restaurant Name</th>
+                        <th>Description</th>
+                        <th>Location</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for one_restaurant in my_restaurants %}
+                    <tr>
+                        <td>{{ one_restaurant.name }}</td>
+                        <td>{{ one_restaurant.description }}</td>
+                        <td>{{ one_restaurant.location }}</td>
+                        <td>
+                            <a href="/item/new/{{one_restaurant.id}}">Add Food </a>|
+                            <a href="/restaurant/remove/{{one_restaurant.id}}"> Remove </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</body>
+</html>

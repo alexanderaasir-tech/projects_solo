@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add items to your order</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    {% load static %}
+    <!-- load Bootstrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <!-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script> -->
+    <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script> -->
+    <!-- <link rel="stylesheet" href="{% static 'style_dash.css' %}"> -->
+    <script>
+        $(document).ready(function(){
+            $("#menu").on('click','#okbutton',function(){
+                // get the current row
+                //alert("hello");
+                var currentRow=$(this).closest("tr"); 
+                
+                var col1=currentRow.find("td:eq(0)").text(); // get current row 1st TD value
+                var col2=currentRow.find("td:eq(1)").text(); // get current row 2nd TD
+                var col3=currentRow.find("td:eq(2)").text(); 
+                var col4=currentRow.find("td:eq(3)").find("#customer_qty").val();// get current row 3rd TD
+                // var data1=col1+"\n"+col2+"\n" + col3+"\n"+col4;
+
+                
+                // alert(data1);
+                
+                $.ajax({
+                    method: "POST",   // we are using a post request here, but this could also be done with a get
+                    url: "/add_items",
+                    data: {
+                        'item_order': col1,
+                        'customer_qty': col4
+                    }
+                })
+                .done(function(res){
+                    window.location = '/dashboard';
+                })
+            });
+        });
+    </script>
+</head>
+<body>
+    <div class="container bg-light text-muted border-top">
+        <div class ="row align-items-center">
+            <div class ="col-10 p-3">
+                <h3>Hi, {{current_user.first_name}}!
+                    Welcome to {{current_restaurant.name}}</h3>
+            </div>
+        
+        <div class="col">
+            <a href="/logout">Logout</a>
+        </div>
+        </div>
+    </div>
+
+    <div class="container bg-light text-muted border-top">
+        <div class="middle">
+            <h3>Add items that you like to pick up!</h3>
+            <table class="table table-sm border-bottom" id="menu">
+                <thead>
+                    <tr>
+                        <th>Item Id</th>
+                        <th>Item Name</th>
+                        <th>Qty Available</th>
+                        <th>Enter Qty to your order</th>
+                        <th>Actions</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for one_item in my_items %}
+                    <tr>
+                        <td>{{ one_item.id }}</td>
+                        <td>{{ one_item.item }}</td>
+                        <td>{{ one_item.quantity }}</td>
+                        <td><input type="number" id="customer_qty" name="customer_qty"></td>
+                        <td><button class="btn btn-primary" name="button" id="okbutton" type="submit">I'm interested</button>
+                        </td>
+
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <!-- <button class="btn btn-primary" name="button" type="button">Done</button> -->
+        </div>
+    </div>
+</body>
+</html>

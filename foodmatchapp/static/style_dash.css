@@ -1,0 +1,38 @@
+.top {
+    margin: 2px;
+    padding: 2px;
+    border: solid 1px black;
+    display: flex;
+    flex-direction: row;
+    /* justify-content: space-evenly;   */
+    /* justify-content: space-between; */
+    justify-content: space-around;
+}
+
+.top_left{
+    margin: 2px;
+    padding: 2px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;  
+    justify-content: space-between;
+}
+
+.middle {
+    margin: 2px;
+    padding: 2px;
+    border: solid 1px black;
+}
+
+.top_right {
+    margin: 2px;
+    padding: 2px;
+    justify-content: right;
+    align-items:flex-end;
+}
+
+#users td, #users th {
+    border: solid 1px black;
+    padding: 8px;
+
+}
